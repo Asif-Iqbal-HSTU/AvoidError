@@ -17,25 +17,25 @@ class DepartmentSeeder extends Seeder
         //
         $depts = [
             [
-                'name'=>'Department of Computer Science and Engineering',
+                'name'=>'Computer Science and Engineering',
                 'code'=>'CSE',
-                'chairman'=>'2',
+                'chairman'=>'nitu.hstu@gmail.com',
                 'chairmanMessage'=>'Hello, I am chairman ;)',
-                'faculty'=>'1'
+                'faculty'=>'Computer Science and Engineering'
             ],
             [
-                'name'=>'Department of Electronics and Electrical Engineering',
+                'name'=>'Electronics and Electrical Engineering',
                 'code'=>'EEE',
-                'chairman'=>'1',
+                'chairman'=>'nitu.hstu@gmail.com',
                 'chairmanMessage'=>'Hello, I am chairman ;)',
-                'faculty'=>'1'
+                'faculty'=>'Computer Science and Engineering'
             ],
             [
-                'name'=>'Department of Electronics and Communication Engineering',
+                'name'=>'Electronics and Communication Engineering',
                 'code'=>'ECE',
-                'chairman'=>'1',
+                'chairman'=>'nitu.hstu@gmail.com',
                 'chairmanMessage'=>'Hello, I am chairman ;)',
-                'faculty'=>'1'
+                'faculty'=>'Computer Science and Engineering'
             ]
         ];
 

@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo, faSquareCheck, faInfo } from '@fortawesome/free-solid-svg-icons';
 
 export default function PLOvsCLOPage({ message, auth }) {
-    const { courses, teachers, teacherCourses, teacherCoursesChairman } = usePage().props;
+    const { courses, teachers, teacherCourses, teacherCoursesChairman, users } = usePage().props;
 
     const [notification, setNotification] = useState(null);
     const [selectedCLO, setSelectedCLO] = useState('');
@@ -131,7 +131,7 @@ export default function PLOvsCLOPage({ message, auth }) {
                                                         <option value="">Select Teacher</option>
                                                         {teachers.map((teacher) => (
                                                             <option key={teacher.email} value={teacher.email}>
-                                                                {teacher.name}
+                                                                {users.find(user => user.email === teacher.email)?.name || teacher.email}
                                                             </option>
                                                         ))}
                                                     </select>

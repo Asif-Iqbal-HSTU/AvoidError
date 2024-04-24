@@ -18,7 +18,7 @@ import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css';
 
 export default function ExamCommittee({ message, auth }) {
-    const { courses, teachers, proposals } = usePage().props;
+    const { courses, teachers, proposals, users } = usePage().props;
     //console.log(courseObjectives);
 
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -92,6 +92,7 @@ export default function ExamCommittee({ message, auth }) {
                                                         value={data.CourseCode}
                                                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                                                         onChange={(e) => setData('CourseCode', e.target.value)}
+                                                        isFocused={true}
                                                         required
                                                     >
                                                         <option value="">Select Course</option>
@@ -117,7 +118,6 @@ export default function ExamCommittee({ message, auth }) {
                                                         value={data.ExamYear}
                                                         className="mt-1 block w-full"
                                                         autoComplete="ExamYear"
-                                                        isFocused={true}
                                                         onChange={(e) => setData('ExamYear', e.target.value)}
                                                         required
                                                     />
@@ -158,7 +158,7 @@ export default function ExamCommittee({ message, auth }) {
                                                         <option value="">Select Committee Chairman</option>
                                                         {teachers.map((teacher) => (
                                                             <option key={teacher.email} value={teacher.email}>
-                                                                {teacher.name}
+                                                                {users.find(user => user.email === teacher.email)?.name || teacher.email}
                                                             </option>
                                                         ))}
                                                     </select>
@@ -180,7 +180,7 @@ export default function ExamCommittee({ message, auth }) {
                                                         <option value="">Select Member1</option>
                                                         {teachers.map((teacher) => (
                                                             <option key={teacher.email} value={teacher.email}>
-                                                                {teacher.name}
+                                                                {users.find(user => user.email === teacher.email)?.name || teacher.email}
                                                             </option>
                                                         ))}
                                                     </select>
@@ -202,7 +202,7 @@ export default function ExamCommittee({ message, auth }) {
                                                         <option value="">Select Member2</option>
                                                         {teachers.map((teacher) => (
                                                             <option key={teacher.email} value={teacher.email}>
-                                                                {teacher.name}
+                                                                {users.find(user => user.email === teacher.email)?.name || teacher.email}
                                                             </option>
                                                         ))}
                                                     </select>

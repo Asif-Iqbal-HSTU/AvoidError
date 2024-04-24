@@ -27,20 +27,29 @@ class ExamProposalController extends Controller
     //
     public function proposalPage(): Response
     {
-        $user = \App\Models\User::find(session()->get('user'))->first();
-        $user_email = $user->email;
-        $user_role = $user->role;
-        $user_dept = $user->department;
-        $courses = \App\Models\Course::all();
-        
-        $teachers = \App\Models\User::where('role', $user_role)->where('department', $user_dept)->get();
         $proposals = \App\Models\ExamProposal::all();
         $committees = \App\Models\ExamCommittee::all();
         //$course = \App\Models\Course::where('CourseCode', $courseCode)->first();
+
+        $user = \App\Models\User::find(session()->get('user'))->first();
+        $user_email = $user->email;
+        $teacher = \App\Models\Teacher::where('email', $user_email)->first();
+        $user_role = $user->role;
+        //dd($user_role);
+        $teacher_dept = $teacher->department;
+        //dd($teacher_dept);
+        $dept = \App\Models\Department::where('name', $teacher_dept)->first();
+        $dept_code = $dept->code;
+        //dd($dept_code);
+        $courses = \App\Models\Course::all();
+        
+        $teachers = \App\Models\Teacher::where('department', $dept->name)->get();
+        $users = \App\Models\User::where('role', 'teacher')->get();
         return Inertia::render('ExamProposal/ExamCommittee', [
             'courses' => $courses,
             'teachers' => $teachers,  
-            'proposals' => $proposals,            
+            'proposals' => $proposals,         
+            'users' => $users,   
         ]);
     }
 

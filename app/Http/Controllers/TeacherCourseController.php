@@ -14,6 +14,7 @@ use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Course;
+use App\Models\Teacher;
 use App\Models\TeacherCourse;
 use App\Models\CourseObjective;
 use App\Models\CourseLearningOutcome;
@@ -29,14 +30,18 @@ class TeacherCourseController extends Controller
         //dd($courseCode);
         $user = \App\Models\User::find(session()->get('user'))->first();
         $user_email = $user->email;
+        $teacher = \App\Models\Teacher::where('email', $user_email)->first();
         $user_role = $user->role;
-        $user_dept = $user->department;
-        $dept = \App\Models\Department::where('name', $user_dept)->first();
+        //dd($user_role);
+        $teacher_dept = $teacher->department;
+        //dd($teacher_dept);
+        $dept = \App\Models\Department::where('name', $teacher_dept)->first();
         $dept_code = $dept->code;
         //dd($dept_code);
         $courses = \App\Models\Course::all();
         
-        $teachers = \App\Models\User::where('role', $user_role)->where('department', $user_dept)->get();
+        $teachers = \App\Models\Teacher::where('department', $dept->name)->get();
+        $users = \App\Models\User::where('role', 'teacher')->get();
         
         //$teacherCourses = \App\Models\TeacherCourse::where('email', $user_email)->get();
         $teacherCourses = \App\Models\TeacherCourse::all();
@@ -46,6 +51,8 @@ class TeacherCourseController extends Controller
             'teachers' => $teachers,            
             'teacherCourses' => $teacherCourses,  
             'teacherCoursesChairman' => $teacherCoursesChairman,
+            'dept' => $dept,
+            'users' => $users,
         ]);
     }
 

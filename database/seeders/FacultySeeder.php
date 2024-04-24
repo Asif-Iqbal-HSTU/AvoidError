@@ -17,8 +17,8 @@ class FacultySeeder extends Seeder
         //
         $faculties = [
             [
-                'name'=>'Faculty of Computer Science and Engineering',
-                'dean'=>'2',
+                'name'=>'Computer Science and Engineering',
+                'dean'=>'nitu.hstu@gmail.com',
                 'deanMessage'=>'Hello, I am dean ;)'
             ]
         ];

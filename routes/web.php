@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherCourseController;
 use App\Http\Controllers\CourseObjectiveController;
 use App\Http\Controllers\QuestionController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\SslCommerzPaymentController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,10 +42,16 @@ Route::get('/dashboard', function () {
     $departments = \App\Models\Department::all();
     $proposals = \App\Models\ExamProposal::all();
     $committees = \App\Models\ExamCommittee::all();
+    $faculties = \App\Models\Faculty::all();
+    $enrollments = \App\Models\Enrollment::all();
+    $students = \App\Models\Student::all();
     return Inertia::render('Dashboard',[
         'departments' => $departments,
         'proposals' => $proposals,
         'committees' => $committees,
+        'faculties' => $faculties,
+        'enrollments' => $enrollments,
+        'students' => $students,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -130,17 +139,43 @@ Route::middleware('auth')->group(function () {
 
     //createFaculty
     Route::get('/page/faculty/create', [FacultyController::class, 'CreateFacultyPage'])->name('createFaculty.page');
-    Route::post('/faculty/create', [FacultyController::class, 'CreateFaculty'])->name('createFaculty');
+    Route::post('/faculty/create', [FacultyController::class, 'CreateFaculty'])->name('createFaculty'); 
 
     //createDept
     Route::get('/page/dept/create', [DepartmentController::class, 'CreateDeptPage'])->name('createDept.page');
     Route::post('/dept/create', [DepartmentController::class, 'CreateDept'])->name('createDept');
 
-    //createDept
+    //createTeacher
     Route::get('/page/teacher/create', [TeacherController::class, 'CreateTeacherPage'])->name('createTeacher.page');
     Route::post('/teacher/create', [RegisteredUserController::class, 'addTeacher'])->name('createTeacher');
+
+    //createStudent
+    Route::get('/page/student/create', [StudentController::class, 'CreateStudentPage'])->name('createStudent.page');
+    Route::post('/student/create', [RegisteredUserController::class, 'addStudent'])->name('createStudent');
+
+    //createEnrollment
+    Route::get('/page/enrollment/create', [EnrollmentController::class, 'CreateEnrollmentPage'])->name('createEnrollment.page');
+    Route::post('/enrollment/create', [EnrollmentController::class, 'addEnrollment'])->name('createEnrollment');
+
+    Route::get('/gotoPaymentPage/{uid}',[EnrollmentController::class,'gotoPaymentPage'])->name('gotoPaymentPage');
 
 
 });
 
 require __DIR__.'/auth.php';
+
+// SSLCOMMERZ Start
+Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
+Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
+
+Route::post('/pay/{uid}', [SslCommerzPaymentController::class, 'index']);
+Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
+
+Route::post('/success', [SslCommerzPaymentController::class, 'success']);
+Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
+Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
+
+Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
+//SSLCOMMERZ END
+
+

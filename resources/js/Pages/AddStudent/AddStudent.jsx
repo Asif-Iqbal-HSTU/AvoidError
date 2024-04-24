@@ -15,8 +15,8 @@ import 'react-tooltip/dist/react-tooltip.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo, faSquareCheck, faInfo } from '@fortawesome/free-solid-svg-icons';
 
-export default function AddTeacher({ message, auth }) {
-    const { faculties, departments, teacherCourses, teacherCoursesChairman } = usePage().props;
+export default function AddStudent({ message, auth }) {
+    const { faculties, degrees, teacherCourses, teacherCoursesChairman } = usePage().props;
 
     const [notification, setNotification] = useState(null);
 
@@ -28,19 +28,33 @@ export default function AddTeacher({ message, auth }) {
         dateOfBirth: '',
         mobile: '',
         nationality: 'Bangladeshi',
-        department: '',
+        degree: '',
         faculty: '',
         designation: '',
-        role: 'teacher',
+        role: 'student',
+        sid: '',
+        session: '',
+        level: '',
+        semester: '',
+        section: '',
+        hall: '',
+        residentialStatus: '',
+        boardScholarship: '',
+        financialStatus: '',
     });
 
     const genders = ['Male', 'Female', 'Other'];
-    const designations = ['Lecturer', 'Assistant Professor', 'Associate Professor', 'Professor'];
+    const levels = ['1', '2', '3', '4', '5'];
+    const semesters = ['I', 'II'];
+    const sections = ['A', 'B', 'C'];
+    const halls = ['hall1', 'hall2'];
+    const residentialStatuses = ['residential', 'non-residential'];
+    const boardScholarships = ['general', 'talentpool', 'none'];
 
     const submit = async (e) => {
         e.preventDefault();
-        await post(route('createTeacher'));
-        setNotification('Teacher Added Successfully!');
+        await post(route('createStudent'));
+        setNotification('Student Added Successfully!');
         setTimeout(() => {
             setNotification(null);
         }, 3000);
@@ -51,7 +65,7 @@ export default function AddTeacher({ message, auth }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Create Teacher</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Create Student</h2>}
         >
             <Head title="Workspace" />
 
@@ -73,7 +87,7 @@ export default function AddTeacher({ message, auth }) {
                                             )}
                                             <header>
                                                 <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                                    Add Teacher
+                                                    Add Student
                                                     <span
                                                         className="ml-2"
                                                         data-tooltip-id='tooltip'
@@ -85,10 +99,28 @@ export default function AddTeacher({ message, auth }) {
                                                 </h2>
 
                                                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                                    Distribute Course to Teacher so that they can start uploading OBE syllabus.
+                                                    Add Student
                                                 </p>
                                             </header>
                                             <form onSubmit={submit} className="mt-6 space-y-6">
+
+
+                                                <div>
+                                                    <InputLabel htmlFor="sid" value="sid" />
+
+                                                    <TextInput
+                                                        id="sid"
+                                                        name="sid"
+                                                        value={data.sid}
+                                                        className="mt-1 block w-full"
+                                                        autoComplete="sid"
+                                                        isFocused={true}
+                                                        onChange={(e) => setData('sid', e.target.value)}
+                                                        required
+                                                    />
+
+                                                    <InputError message={errors.sid} className="mt-2" />
+                                                </div>
 
                                                 <div>
                                                     <InputLabel htmlFor="name" value="Name" />
@@ -99,7 +131,6 @@ export default function AddTeacher({ message, auth }) {
                                                         value={data.name}
                                                         className="mt-1 block w-full"
                                                         autoComplete="name"
-                                                        isFocused={true}
                                                         onChange={(e) => setData('name', e.target.value)}
                                                         required
                                                     />
@@ -211,19 +242,19 @@ export default function AddTeacher({ message, auth }) {
 
 
                                                 <div className="mt-4">
-                                                    <InputLabel htmlFor="department" value="Select department" />
+                                                    <InputLabel htmlFor="degree" value="Select degree" />
 
                                                     <select
-                                                        id="department"
-                                                        name="department"
-                                                        value={data.department}
+                                                        id="degree"
+                                                        name="degree"
+                                                        value={data.degree}
                                                         className='mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'
-                                                        onChange={(e) => setData('department', e.target.value)}
+                                                        onChange={(e) => setData('degree', e.target.value)}
                                                     >
-                                                        <option value="">Select department</option>
-                                                        {departments.map((department) => (
-                                                            <option key={department.name} value={department.name}>
-                                                                {department.name}
+                                                        <option value="">Select degree</option>
+                                                        {degrees.map((degree) => (
+                                                            <option key={degree.name} value={degree.name}>
+                                                                {degree.name}
                                                             </option>
                                                         ))}
                                                     </select>
@@ -252,33 +283,174 @@ export default function AddTeacher({ message, auth }) {
                                                     <InputError message={errors.faculty} className="mt-2" />
                                                 </div>
 
+                                                <div>
+                                                    <InputLabel htmlFor="session" value="session" />
+
+                                                    <TextInput
+                                                        id="session"
+                                                        name="session"
+                                                        value={data.session}
+                                                        className="mt-1 block w-full"
+                                                        autoComplete="session"
+                                                        onChange={(e) => setData('session', e.target.value)}
+                                                        required
+                                                    />
+
+                                                    <InputError message={errors.session} className="mt-2" />
+                                                </div>
+
                                                 <div className="mt-4">
-                                                    <InputLabel htmlFor="designation" value="designation" />
+                                                    <InputLabel htmlFor="level" value="level" />
 
                                                     <select
-                                                        id="designation"
-                                                        name="designation"
-                                                        value={data.designation}
+                                                        id="level"
+                                                        name="level"
+                                                        value={data.level}
                                                         className='mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'
-                                                        onChange={(e) => setData('designation', e.target.value)}
+                                                        onChange={(e) => setData('level', e.target.value)}
                                                         required
                                                     >
-                                                        <option value="">Select designation</option>
-                                                        {designations.map((designation, index) => (
-                                                            <option key={index} value={designation}>
-                                                                {designation}
+                                                        <option value="">Select level</option>
+                                                        {levels.map((level, index) => (
+                                                            <option key={index} value={level}>
+                                                                {level}
                                                             </option>
                                                         ))}
                                                     </select>
 
-                                                    <InputError message={errors.designation} className="mt-2" />
+                                                    <InputError message={errors.level} className="mt-2" />
                                                 </div>
 
+                                                <div className="mt-4">
+                                                    <InputLabel htmlFor="semester" value="semester" />
+
+                                                    <select
+                                                        id="semester"
+                                                        name="semester"
+                                                        value={data.semester}
+                                                        className='mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'
+                                                        onChange={(e) => setData('semester', e.target.value)}
+                                                        required
+                                                    >
+                                                        <option value="">Select semester</option>
+                                                        {semesters.map((semester, index) => (
+                                                            <option key={index} value={semester}>
+                                                                {semester}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+
+                                                    <InputError message={errors.semester} className="mt-2" />
+                                                </div>
+
+                                                <div className="mt-4">
+                                                    <InputLabel htmlFor="section" value="section" />
+
+                                                    <select
+                                                        id="section"
+                                                        name="section"
+                                                        value={data.section}
+                                                        className='mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'
+                                                        onChange={(e) => setData('section', e.target.value)}
+                                                        required
+                                                    >
+                                                        <option value="">Select section</option>
+                                                        {sections.map((section, index) => (
+                                                            <option key={index} value={section}>
+                                                                {section}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+
+                                                    <InputError message={errors.section} className="mt-2" />
+                                                </div>
+
+                                                <div className="mt-4">
+                                                    <InputLabel htmlFor="hall" value="hall" />
+
+                                                    <select
+                                                        id="hall"
+                                                        name="hall"
+                                                        value={data.hall}
+                                                        className='mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'
+                                                        onChange={(e) => setData('hall', e.target.value)}
+                                                        required
+                                                    >
+                                                        <option value="">Select hall</option>
+                                                        {halls.map((hall, index) => (
+                                                            <option key={index} value={hall}>
+                                                                {hall}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+
+                                                    <InputError message={errors.hall} className="mt-2" />
+                                                </div>
+
+                                                <div className="mt-4">
+                                                    <InputLabel htmlFor="residentialStatus" value="residentialStatus" />
+
+                                                    <select
+                                                        id="residentialStatus"
+                                                        name="residentialStatus"
+                                                        value={data.residentialStatus}
+                                                        className='mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'
+                                                        onChange={(e) => setData('residentialStatus', e.target.value)}
+                                                        required
+                                                    >
+                                                        <option value="">Select residentialStatus</option>
+                                                        {residentialStatuses.map((residentialStatus, index) => (
+                                                            <option key={index} value={residentialStatus}>
+                                                                {residentialStatus}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+
+                                                    <InputError message={errors.residentialStatus} className="mt-2" />
+                                                </div>
+
+                                                <div className="mt-4">
+                                                    <InputLabel htmlFor="boardScholarship" value="boardScholarship" />
+
+                                                    <select
+                                                        id="boardScholarship"
+                                                        name="boardScholarship"
+                                                        value={data.boardScholarship}
+                                                        className='mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'
+                                                        onChange={(e) => setData('boardScholarship', e.target.value)}
+                                                        required
+                                                    >
+                                                        <option value="">Select boardScholarship</option>
+                                                        {boardScholarships.map((boardScholarship, index) => (
+                                                            <option key={index} value={boardScholarship}>
+                                                                {boardScholarship}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+
+                                                    <InputError message={errors.boardScholarship} className="mt-2" />
+                                                </div>
+
+                                                <div>
+                                                    <InputLabel htmlFor="financialStatus" value="পিতার বাৎসরিক আয়ঃ (টাকায়)" />
+
+                                                    <TextInput
+                                                        id="financialStatus"
+                                                        name="financialStatus"
+                                                        value={data.financialStatus}
+                                                        className="mt-1 block w-full"
+                                                        autoComplete="financialStatus"
+                                                        onChange={(e) => setData('financialStatus', e.target.value)}
+                                                        required
+                                                    />
+
+                                                    <InputError message={errors.financialStatus} className="mt-2" />
+                                                </div>
 
 
                                                 <div className="flex items-center justify-end mt-4">
                                                     <PrimaryButton className="ms-4" disabled={processing}>
-                                                        Create Teacher
+                                                        Create Student
                                                     </PrimaryButton>
                                                 </div>
                                             </form>

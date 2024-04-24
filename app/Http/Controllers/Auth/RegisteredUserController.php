@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Usernew;
 use App\Models\Teacher;
+use App\Models\Student;
 use App\Models\Address;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -93,13 +94,13 @@ class RegisteredUserController extends Controller
             'postCode' => $request->postCode
         ]);
 
-        $user = Usernew::create([
+        $user = User::create([
             'uid' => $request->email,
             'email' => $request->email,
             'name' => $request->name,
             'banglaName' => $request->banglaName,
             'password' => Hash::make($request->mobile),
-            'role' => 'teacher',
+            'role' => $request->role,
             'gender' => $request->gender,
             'dateOfBirth' => $request->dateOfBirth,
             'mobile' => $request->mobile,
@@ -108,10 +109,65 @@ class RegisteredUserController extends Controller
         ]);
 
         $teacher = Teacher::create([
-            'tid' => $request->email, // Assuming uid is the teacher ID
+            'email' => $request->email, // Assuming uid is the teacher ID
             'department' => $request->department,
             'faculty' => $request->faculty,
             'designation' => $request->designation
+        ]);
+        
+        return back();
+    }
+
+    public function addStudent(Request $request): RedirectResponse
+    {
+        //dd($request);
+        /*$request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'department' => 'required|string',
+            'faculty' => 'required|string',
+            'designation' => 'required|string',
+            'role' => 'required|string',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);*/
+
+        $address = Address::create([
+            'email' => $request->email,
+            'village' => $request->village,
+            'union' => $request->union,
+            'upazilla' => $request->upazilla,
+            'district' => $request->district,
+            'division' => $request->division,
+            'postCode' => $request->postCode
+        ]);
+
+        $user = User::create([
+            'uid' => $request->email,
+            'email' => $request->email,
+            'name' => $request->name,
+            'banglaName' => $request->banglaName,
+            'password' => Hash::make($request->mobile),
+            'role' => $request->role,
+            'gender' => $request->gender,
+            'dateOfBirth' => $request->dateOfBirth,
+            'mobile' => $request->mobile,
+            'nationality' => $request->nationality,
+            'address' => $address->email,
+        ]);
+
+        $student = Student::create([
+            'sid' => $request->sid,
+            'email' => $request->email, 
+            'faculty' => $request->faculty,
+            'degree' => $request->degree,
+            'session' => $request->session,
+            'level' => $request->level,
+            'semester' => $request->semester,
+            'section' => $request->section,
+            'hall' => $request->hall,
+            'residentialStatus' => $request->residentialStatus,
+            'boardScholarship' => $request->boardScholarship,
+            'financialStatus' => $request->financialStatus,
         ]);
         
         return back();

@@ -24,14 +24,10 @@ export default function Workspace({ message, auth }) {
 
     // Check if the user is a chairman
     departments.forEach(department => {
-        if (department.chairman == auth.user.id) {
+        if (department.chairman == auth.user.email) {
             isChairman = true;
             deptName = department.name;
-            faculties.forEach(faculty => {
-                if (department.faculty == faculty.id) {
-                    facultyName = faculty.name;
-                }
-            });
+            facultyName = department.faculty;            
         }
     });
 
