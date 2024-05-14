@@ -83,7 +83,7 @@ export default function Dashboard({ auth }) {
 
                         {auth.user.role === "student" ? (
                             <>
-                                {isEnrollment ? ( 
+                                {isEnrollment ? (
                                     <>
                                         <DashboardCard
                                             user={auth.user}
@@ -97,12 +97,21 @@ export default function Dashboard({ auth }) {
                                         <a href={route('gotoPaymentPage', { uid: auth.user.id })} className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Enrollment {auth.user.email}</a>
                                         &nbsp;
 
+
                                     </>
                                 ) : (
                                     <>
 
                                     </>
                                 )}
+                                <DashboardCard
+                                    user={auth.user}
+                                    route={route('addPaper.page')}
+                                    imageSrc="./images/digital.svg"
+                                    heading="HSTU Journal"
+                                    description="Work on journals from here."
+                                    buttonDescription="Journal"
+                                />
 
                             </>
                         ) : (
@@ -197,6 +206,8 @@ export default function Dashboard({ auth }) {
                                                     buttonDescription="Workspace"
                                                 />
 
+                                                
+
                                                 <DashboardCard
                                                     user={auth.user}
                                                     route={route('proposalPage')}
@@ -205,9 +216,11 @@ export default function Dashboard({ auth }) {
                                                     description="Assign teachers to the exam committee of a course to integrate it into the exam proposal."
                                                     buttonDescription="Set Committee"
                                                 />
+                                                
 
                                                 {inCommittee ? (
                                                     <>
+                                                        
                                                         <DashboardCard
                                                             user={auth.user}
                                                             route={route('questionModerationView')}
@@ -216,6 +229,7 @@ export default function Dashboard({ auth }) {
                                                             description="As a member of the exam committee, you can moderate questions."
                                                             buttonDescription="Question Moderation"
                                                         />
+                                                        
 
                                                     </>
                                                 ) : (
@@ -235,8 +249,21 @@ export default function Dashboard({ auth }) {
                                                     buttonDescription="Workspace"
                                                 />
 
+                                                
+
+                                                <DashboardCard
+                                                    user={auth.user}
+                                                    route={route('workspace')}
+                                                    imageSrc="./images/digital.svg"
+                                                    heading="HSTU Journal"
+                                                    description="Work on journals from here."
+                                                    buttonDescription="Journal"
+                                                />
+                                                
+
                                                 {inCommittee ? (
                                                     <>
+                                                        
                                                         <DashboardCard
                                                             user={auth.user}
                                                             route={route('questionModerationView')}
@@ -245,6 +272,7 @@ export default function Dashboard({ auth }) {
                                                             description="As a member of the exam committee, you can moderate questions."
                                                             buttonDescription="Question Moderation"
                                                         />
+                                                        
                                                     </>
                                                 ) : (
                                                     <>
@@ -257,6 +285,7 @@ export default function Dashboard({ auth }) {
 
                                         {isDean ? (
                                             <>
+                                            
                                                 <DashboardCard
                                                     user={auth.user}
                                                     route={route('createEnrollment.page')}
@@ -265,6 +294,7 @@ export default function Dashboard({ auth }) {
                                                     description="See courses distributed to you and start adding OBE syllabus from here."
                                                     buttonDescription="Create Enrollment"
                                                 />
+                                                
                                             </>
                                         ) : (
                                             <>

@@ -28,7 +28,7 @@ class TeacherCourseController extends Controller
         // Use $courseCode to perform actions, such as fetching data from the database or any other processing
         // Return a response or render a view as needed
         //dd($courseCode);
-        $user = \App\Models\User::find(session()->get('user'))->first();
+        $user = \App\Models\User::find(session()->get('user'))->first(); 
         $user_email = $user->email;
         $teacher = \App\Models\Teacher::where('email', $user_email)->first();
         $user_role = $user->role;

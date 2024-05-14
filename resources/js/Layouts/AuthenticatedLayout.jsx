@@ -4,12 +4,19 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
+import Modal from '@/Components/Modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeadset } from '@fortawesome/free-solid-svg-icons';
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const toggleModal = () => {
+        setShowModal(!showModal);
+    };
 
     return (
-        
+
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
             <nav className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -125,6 +132,47 @@ export default function Authenticated({ user, header, children }) {
             )}
 
             <main>{children}</main>
+            {/* Floating action button */}
+            <div className="fixed bottom-8 right-8">
+                <button
+                    className="bg-violet-500 hover:bg-violet-600 text-white rounded-full p-3 shadow-lg focus:outline-none flex items-center justify-center"
+                    title="Contact for queries"
+                    onClick={toggleModal}
+                >
+                    <FontAwesomeIcon icon={faHeadset} />
+                </button>
+            </div>
+
+            {/* Render the modal */}
+            <Modal
+                show={showModal}
+                onClose={toggleModal}
+                className="max-w-xl"
+            >
+                <div className="p-6">
+                    <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                        This web application is in Beta phase.
+                    </h2>
+                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                        There could be errors/ problems. Please do not hesitate to contact 01725215111 anytime.
+                    </p>
+                    {/* Social media icons */}
+                    <div className="flex mt-4 space-x-4">
+                        <a href="https://wa.me/+8801725215111" target="_blank" rel="noopener noreferrer">
+                            <img src="/images/WhatsApp.png" alt="WhatsApp Icon" className="h-6 w-6 " />
+                        </a>
+                        {/* Telegram icon */}
+                        <a href="https://t.me/asif_iqbal_hstu" target="_blank" rel="noopener noreferrer">
+                            <img src="/images/Telegram.png" alt="Telegram Icon" className="h-6 w-6 " />
+                        </a>
+                        {/* Messenger icon */}
+                        <a href="https://m.me/100069363370728?hash=AbbzmpsHGCmG3cGa&source=qr_link_share" target="_blank" rel="noopener noreferrer">
+                            <img src="/images/Messenger.png" alt="Messenger Icon" className="h-6 w-6 " />
+                        </a>
+                    </div>
+                </div>
+            </Modal>
+
         </div>
     );
 }

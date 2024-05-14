@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -308,7 +309,7 @@ class CourseController extends Controller
         // Use $courseCode to perform actions, such as fetching data from the database or any other processing
         // Return a response or render a view as needed
         //dd($courseCode);
-        $referencebooks = \App\Models\ReferenceBook::where('CourseCode', $courseCode)->get();
+        $referencebooks = \App\Models\Refbook::where('CourseCode', $courseCode)->get();
         return Inertia::render('Course/ReferenceBooks',[
             'courseCode' => $courseCode,
             'referencebooks' => $referencebooks,

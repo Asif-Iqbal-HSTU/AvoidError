@@ -85,7 +85,7 @@ export default function PLOvsCLOPage({ message, auth }) {
                                                         id="CLO_ID"
                                                         name="CLO_ID"
                                                         value={data.CLO_ID}
-                                                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                                        className='mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'
                                                         onChange={(e) => setData('CLO_ID', e.target.value)}
                                                         required
                                                     >
@@ -114,7 +114,7 @@ export default function PLOvsCLOPage({ message, auth }) {
                                                         id="PLO_No"
                                                         name="PLO_No"
                                                         value={data.PLO_No}
-                                                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                                        className='mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'
                                                         onChange={(e) => setData('PLO_No', e.target.value)}
                                                         required
                                                     >
@@ -151,7 +151,7 @@ export default function PLOvsCLOPage({ message, auth }) {
                                                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700">
                                                     {PLOvsCLOs && PLOvsCLOs.length > 0 ? (
                                                         PLOvsCLOs.map((PLOvsCLO, index) => (
-                                                            <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800' : 'bg-white'}>
+                                                            <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800' : 'bg-gray-60 dark:bg-gray-900'}>
                                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400">{PLOvsCLO.CLO_ID}</td>
                                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400">{PLOvsCLO.PLO_No}</td>
                                                             </tr>

@@ -69,4 +69,11 @@ class EnrollmentController extends Controller
             'stuC' => $stuC
         ]);
     }
+
+    public function successPage() 
+    {
+        return view('paysuccess');
+    }
+
+    
 }

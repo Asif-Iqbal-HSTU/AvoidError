@@ -79,10 +79,10 @@ export default function Questions({ message, auth }) {
 
                                         <div>
                                             <header>
-                                                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Course Objectives (CO)</h2>
+                                                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Create Question</h2>
 
                                                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                                    Add Course Objectives (COs) for {courseCode} from here.
+                                                    Create questions for {courseCode} from here.
                                                 </p>
 
                                             </header>
@@ -211,7 +211,7 @@ export default function Questions({ message, auth }) {
                                                         id="ConnectedCLO"
                                                         name="ConnectedCLO"
                                                         value={data.ConnectedCLO}
-                                                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
+                                                        className='mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'
                                                         onChange={(e) => setData('ConnectedCLO', e.target.value)}
                                                         required
                                                     >
@@ -272,7 +272,7 @@ export default function Questions({ message, auth }) {
                                                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700">
                                                     {ques && ques.length > 0 ? (
                                                         ques.map((que, index) => (
-                                                            <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800' : 'bg-white'}>
+                                                            <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800' : 'bg-gray-60 dark:bg-gray-900'}>
                                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400">Section-{que.Section}; {que.NO_123}. {que.NO_ABC}</td>
                                                                 <td className="px-6 py-4 whitespace-wrap text-sm text-gray-900 dark:text-gray-400 break-all">
                                                                     <div dangerouslySetInnerHTML={{ __html: que.Question }} />
@@ -293,7 +293,7 @@ export default function Questions({ message, auth }) {
                                                         ))
                                                     ) : (
                                                         <tr>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400" colSpan="2">No course objectives found.</td>
+                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400 dark:bg-gray-800" colSpan="2">Nothing Found</td>
                                                         </tr>
                                                     )}
                                                 </tbody>

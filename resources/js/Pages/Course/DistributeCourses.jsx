@@ -24,6 +24,7 @@ export default function PLOvsCLOPage({ message, auth }) {
     const [selectedCourse, setSelectedCourse] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [dropdownKey, setDropdownKey] = useState(0);
+
     const filteredCourses = courses.filter(course =>
         course.CourseCode.toLowerCase().includes(searchTerm.toLowerCase())
     );

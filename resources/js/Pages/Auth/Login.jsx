@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Checkbox from '@/Components/Checkbox';
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
@@ -7,12 +7,17 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
         remember: false,
     });
+
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
         return () => {
@@ -27,6 +32,7 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
+        <>
         <GuestLayout>
             <Head title="Log in" />
 
@@ -50,18 +56,31 @@ export default function Login({ status, canResetPassword }) {
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
+                
+
                 <div className="mt-4">
                     <InputLabel htmlFor="password" value="Password" />
 
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                    />
+                    <div className="relative mt-1 w-full">
+                        <TextInput
+                            id="password"
+                            type={showPassword ? 'text' : 'password'} // Toggle password visibility based on showPassword state
+                            name="password"
+                            value={data.password}
+                            className="pr-10 pl-2 py-2 rounded-md w-full"
+                            autoComplete="current-password"
+                            onChange={(e) => setData('password', e.target.value)}
+                        />
+                        {/* Password toggle button */}
+                        <button
+                            type="button"
+                            className="absolute inset-y-0 right-0 px-4 py-2 rounded-md focus:outline-none"
+                            onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
+                        >
+                            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                        
+                        </button>
+                    </div>
 
                     <InputError message={errors.password} className="mt-2" />
                 </div>
@@ -92,6 +111,8 @@ export default function Login({ status, canResetPassword }) {
                     </PrimaryButton>
                 </div>
             </form>
+            
         </GuestLayout>
+    </>
     );
 }

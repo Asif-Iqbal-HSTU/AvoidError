@@ -14,6 +14,9 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\SslCommerzPaymentController;
+use App\Http\Controllers\JournalController;
+use App\Http\Controllers\RefbookController;
+use App\Http\Controllers\WeeklyLessonPlanController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -126,7 +129,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/coursecontent/upload/{courseCode}', [CourseController::class, 'storeCourseContent'])->name('coursecontent.upload');
 
     Route::get('/referencebooks/{courseCode}', [CourseController::class, 'referencebooks'])->name('referencebooks');
-    Route::post('/referencebooks/upload/{courseCode}', [CourseController::class, 'storereferencebooks'])->name('referencebooks.upload');
+    Route::post('/referencebooks/upload/{courseCode}', [RefbookController::class, 'storereferencebooks'])->name('referencebooks.upload');
+    Route::get('/referencebooks/{courseCode}/download/{id}', [RefbookController::class, 'downloadReferenceBook'])->name('referencebooks.download');
 
     Route::get('/weeklyPlan/{courseCode}', [WeeklyLessonPlanController::class, 'WeeklyLessonPlanPage'])->name('weeklyPlan');
     Route::post('/weeklyPlan/upload/{courseCode}', [WeeklyLessonPlanController::class, 'storeWeeklyLessonPlan'])->name('weeklyPlan.upload');
@@ -159,6 +163,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/gotoPaymentPage/{uid}',[EnrollmentController::class,'gotoPaymentPage'])->name('gotoPaymentPage');
 
+    //journals
+    Route::get('/page/paper/add', [JournalController::class, 'AddPaperPage'])->name('addPaper.page');
+
 
 });
 
@@ -177,5 +184,8 @@ Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
 
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 //SSLCOMMERZ END
+
+
+Route::get('/success',[EnrollmentController::class,'successPage'])->name('merchant.page');
 
 

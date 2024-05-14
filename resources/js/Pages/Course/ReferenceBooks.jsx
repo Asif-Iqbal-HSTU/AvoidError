@@ -14,15 +14,22 @@ export default function ReferenceBook({ message, auth }) {
     console.log(referencebooks);
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        CourseCode: '',
+        CourseCode: courseCode,
         Sl_No: '',
         BookName: '',
         Author: '',
+        File: null, // New state for file upload
     });
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('referencebooks.upload', { courseCode: courseCode }));
+        const formData = new FormData();
+        formData.append('CourseCode', data.CourseCode);
+        formData.append('Sl_No', data.Sl_No);
+        formData.append('BookName', data.BookName);
+        formData.append('Author', data.Author);
+        formData.append('File', data.File); // Append file to form data
+        post(route('referencebooks.upload', { courseCode: courseCode }), formData); // Send form data with file
     };
 
 
@@ -54,7 +61,7 @@ export default function ReferenceBook({ message, auth }) {
                                                     Add reference books of {courseCode} from here.
                                                 </p>
                                             </header>
-                                            <form onSubmit={submit} className="mt-6 space-y-6">
+                                            <form onSubmit={submit} className="mt-6 space-y-6" encType="multipart/form-data">
                                                 <div>
                                                     <InputLabel htmlFor="CourseCode" value="Course Code" />
 
@@ -124,6 +131,19 @@ export default function ReferenceBook({ message, auth }) {
                                                     <InputError message={errors.Author} className="mt-2" />
                                                 </div>
 
+                                                <div>
+                                                    <InputLabel htmlFor="File" value="Upload PDF File" />
+                                                    <input
+                                                        type="file"
+                                                        id="File"
+                                                        name="File"
+                                                        className="mt-1 block w-full"
+                                                        onChange={(e) => setData('File', e.target.files[0])} // Store selected file in component state
+                                                        required
+                                                    />
+                                                    <InputError message={errors.File} className="mt-2" />
+                                                </div>
+
                                                 <div className="flex items-center justify-end mt-4">
                                                     <PrimaryButton className="ms-4" disabled={processing}>
                                                         Add Reference Book
@@ -137,6 +157,8 @@ export default function ReferenceBook({ message, auth }) {
                                                     <tr className="bg-gray-50 dark:bg-gray-800">
                                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">BookName</th>
                                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Author</th>
+                                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700">
@@ -145,6 +167,9 @@ export default function ReferenceBook({ message, auth }) {
                                                             <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800' : 'bg-white'}>
                                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400">{book.BookName}</td>
                                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400">{book.Author}</td>
+                                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                                    <a href={route('referencebooks.download', { courseCode: courseCode, id: book.id })} className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-700">Download</a>
+                                                                </td>
                                                             </tr>
                                                         ))
                                                     ) : (

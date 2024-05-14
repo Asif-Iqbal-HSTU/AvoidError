@@ -305,7 +305,7 @@ export default function WeeklyLessonPlan({ message, auth }) {
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400" colSpan="2">No course objectives found.</td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400" colSpan="2">Nothing found.</td>
                                                 </tr>
                                             )}
                                         </tbody>

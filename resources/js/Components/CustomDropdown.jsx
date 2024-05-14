@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 // CustomDropdown component
 const CustomDropdown = ({ options, initialSelectedOption, onSelect }) => {
@@ -34,11 +36,15 @@ const CustomDropdown = ({ options, initialSelectedOption, onSelect }) => {
         <div className="relative" ref={dropdownRef}>
             <input
                 type="text"
-                placeholder="Select or write to filter"
+                placeholder="Search"
                 value={searchTerm}
                 className='mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'
                 onFocus={() => setIsOpen(true)}
                 onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <FontAwesomeIcon
+                icon={faAngleDown}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" // Position the down arrow icon
             />
             {isOpen && (
                 <div className="absolute z-10 mt-1 w-full max-h-40 overflow-y-auto bg-white rounded-md shadow-lg border-black">

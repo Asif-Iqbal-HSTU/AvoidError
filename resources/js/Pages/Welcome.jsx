@@ -42,11 +42,16 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                     </div>
 
                                     <h2 className="mt-6 text-xl font-semibold text-gray-900 dark:text-white">
-                                        Welcome To Automation System of HSTU
+                                    OBE Fusion: A Web Application for Composing and Crafting the OBE Curriculum
                                     </h2>
 
                                     <p className="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                        Welcome to HSTU's Automation System! Streamlining processes, enhancing communication, and simplifying your university experience. Explore, engage, and enjoy your journey with us!
+                                    OBE Fusion is an innovative web application designed to streamline the process of developing Outcome-Based
+Education (OBE) curricula within academic departments.
+With a focus on collaboration, coordination, and efficiency,
+OBE Fusion empowers the faculty members to seamlessly
+create and merge course curricula while adhering to OBE
+principles.
                                     </p>
                                     <div className="flex items-center gap-4 mt-4">
 
