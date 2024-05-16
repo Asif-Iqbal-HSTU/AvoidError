@@ -42,13 +42,15 @@ class CLOController extends Controller
             'CLO_ID' => $request->CLO_ID,
             'CLO_Description' => $request->CLO_Description,
         ]);
-        $courseLearningOutcomes = \App\Models\CourseLearningOutcome::where('CourseCode', $courseCode)->get();
+        /*$courseLearningOutcomes = \App\Models\CourseLearningOutcome::where('CourseCode', $courseCode)->get();
         
         return Inertia::render('Course/CourseLearningOutcome',[
             'courseCode' => $courseCode,
             'courseLearningOutcomes' => $courseLearningOutcomes,
-        ]);
+        ]);*/
         //return redirect()->back()->with('courseObjectives', $courseObjectives);
+        
+        return back();
     }
 
     public function EditCLO($clo): Response {
@@ -72,7 +74,7 @@ class CLOController extends Controller
         return back();
     }
 
-    public function deleteCourseObjective(Request $request, $clo): RedirectResponse{
+    public function deleteCLO(Request $request, $clo): RedirectResponse{
         $selectedCLO = \App\Models\CourseLearningOutcome::where('id', $clo)->first();
         $selectedCLO->delete();
         return back();

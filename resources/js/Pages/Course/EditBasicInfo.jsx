@@ -6,9 +6,15 @@ import { router } from '@inertiajs/react'
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import NumberInput from '@/Components/NumberInput';
 import TextArea from '@/Components/TextArea';
+
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleInfo, faSquareCheck, faInfo, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 export default function CourseObjective({ message, auth }) {
     const { course } = usePage().props;
@@ -42,13 +48,31 @@ export default function CourseObjective({ message, auth }) {
                 <>
                     <div className="py-12">
                         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                            <Link
+                                href={route('courseView', { courseCode: course.CourseCode })}>
+                                <SecondaryButton className="mb-2">
+                                    <FontAwesomeIcon icon={faArrowLeft} />
+                                    &nbsp;Back
+                                </SecondaryButton>
+                            </Link>
                             <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                                 <div className="p-6 text-gray-900 dark:text-gray-100">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 flex justify-center">
 
                                         <div>
                                             <header>
-                                                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Edit Basic Info of {course.CourseCode}</h2>
+                                                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                                    Basic Info of {course.CourseCode}
+                                                    <span
+                                                        className="ml-2"
+                                                        data-tooltip-id='tooltip'
+                                                        data-tooltip-content={`To update, just write again and click the button`}
+                                                    >
+                                                        <FontAwesomeIcon icon={faCircleInfo} />
+                                                    </span>
+                                                    <Tooltip id='tooltip' effect="solid" place="top" style={{ fontSize: '12px' }} />
+
+                                                </h2>
 
                                                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                                                     Edit Basic Info of {course.CourseCode} from here.
@@ -106,7 +130,7 @@ export default function CourseObjective({ message, auth }) {
 
                                                 <div className="flex items-center justify-end mt-4">
                                                     <PrimaryButton className="ms-4" disabled={processing}>
-                                                        Edit Basic Info
+                                                        Save
                                                     </PrimaryButton>
                                                 </div>
                                             </form>
@@ -126,8 +150,8 @@ export default function CourseObjective({ message, auth }) {
                                                     </thead>
                                                     <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700">
                                                         <tr className={'bg-gray-50 dark:bg-gray-800'}>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400">{course.Prerequisites}</td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400">{course.Summary}</td>
+                                                            <td className="px-6 py-4 whitespace-wrap text-sm text-gray-900 dark:text-gray-400">{course.Prerequisites}</td>
+                                                            <td className="px-6 py-4 whitespace-wrap text-sm text-gray-900 dark:text-gray-400">{course.Summary}</td>
                                                         </tr>
 
                                                     </tbody>

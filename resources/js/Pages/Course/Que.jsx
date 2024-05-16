@@ -5,6 +5,7 @@ import { router } from '@inertiajs/react'
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import NumberInput from '@/Components/NumberInput';
 import TextArea from '@/Components/TextArea';
@@ -17,6 +18,9 @@ window.katex = katex;
 import AbcBullet from './AbcBullet';
 import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 export default function Questions({ message, auth }) {
     const { ques, courseCode, success, courseLearningOutcomes } = usePage().props;
@@ -73,6 +77,13 @@ export default function Questions({ message, auth }) {
                 <>
                     <div className="py-12">
                         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                            <Link
+                                href={route('courseView', { courseCode: courseCode })}>
+                                <SecondaryButton className="mb-2">
+                                    <FontAwesomeIcon icon={faArrowLeft} />
+                                    &nbsp;Back
+                                </SecondaryButton>
+                            </Link>
                             <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                                 <div className="p-6 text-gray-900 dark:text-gray-100">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 flex justify-center">
@@ -120,7 +131,7 @@ export default function Questions({ message, auth }) {
 
                                                     <InputError message={errors.ExamYear} className="mt-2" />
                                                 </div>
-                                                
+
 
                                                 <div className="mt-4">
                                                     <InputLabel htmlFor="Regular_Short" value="Regular_Short" />

@@ -11,7 +11,9 @@ import NumberInput from '@/Components/NumberInput';
 import TextArea from '@/Components/TextArea';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
+import SecondaryButton from '@/Components/SecondaryButton';
 
 export default function CourseLearningOutcomes({ message, auth }) {
     const { courseLearningOutcomes, courseCode } = usePage().props;
@@ -50,6 +52,13 @@ export default function CourseLearningOutcomes({ message, auth }) {
                 <>
                     <div className="py-12">
                         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                            <Link
+                                href={route('courseView', { courseCode: courseCode })}>
+                                <SecondaryButton className="mb-2">
+                                    <FontAwesomeIcon icon={faArrowLeft} />
+                                    &nbsp;Back
+                                </SecondaryButton>
+                            </Link>
                             <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                                 <div className="p-6 text-gray-900 dark:text-gray-100">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 flex justify-center">
@@ -134,9 +143,9 @@ export default function CourseLearningOutcomes({ message, auth }) {
                                                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700">
                                                     {courseLearningOutcomes && courseLearningOutcomes.length > 0 ? (
                                                         courseLearningOutcomes.map((outcome, index) => (
-                                                            <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800' : 'bg-white'}>
+                                                            <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800' : 'bg-white dark:bg-gray-800'}>
                                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400">{outcome.CLO_ID}</td>
-                                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400">{outcome.CLO_Description}</td>
+                                                                <td className="px-6 py-4 whitespace-wrap text-sm text-gray-900 dark:text-gray-400">{outcome.CLO_Description}</td>
                                                                 <td className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                                                     <Link href={route('EditCLO', { clo: outcome.id })}>
                                                                         <FontAwesomeIcon icon={faEdit} size="lg" className="text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-600" />

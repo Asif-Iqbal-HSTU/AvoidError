@@ -71,14 +71,52 @@ class WeeklyLessonPlanController extends Controller
         //$success = "Course content created successfully.";
         //$courseContents = \App\Models\CourseContent::where('CourseCode', $courseCode)->get();
         
-        $weeklyPlans = \App\Models\WeeklyLessonPlan::where('CourseCode', $courseCode)->get();
+        /*$weeklyPlans = \App\Models\WeeklyLessonPlan::where('CourseCode', $courseCode)->get();
         //return redirect()->back()->with('success', 'Course content created successfully.');
         $courseLearningOutcomes = \App\Models\CourseLearningOutcome::where('CourseCode', $courseCode)->get();
         return Inertia::render('Course/WeeklyLessonPlan',[
             'courseCode' => $courseCode,
             'courseLearningOutcomes' => $courseLearningOutcomes,
             'weeklyPlans' => $weeklyPlans,
+        ]);*/
+        return back();
+    }
+
+    public function EditWeeklyLessonPlan($wp): Response {
+        // Use $courseCode to perform actions, such as fetching data from the database or any other processing
+        // Return a response or render a view as needed
+        //dd($courseCode);
+        
+        $selectedWP = \App\Models\WeeklyLessonPlan::where('id', $wp)->first();
+        $courseLearningOutcomes = \App\Models\CourseLearningOutcome::where('CourseCode', $selectedWP->CourseCode)->get();
+        return Inertia::render('Course/WeeklyLessonPlanEdit',[
+            'selectedWP' => $selectedWP,
+            'courseLearningOutcomes' => $courseLearningOutcomes
         ]);
+    }
+
+    public function UpdateWeeklyLessonPlan(Request $request, $wp): RedirectResponse {
+        // Use $courseCode to perform actions, such as fetching data from the database or any other processing
+        // Return a response or render a view as needed
+        //dd($request->content);
+        //$selectedCC = \App\Models\CourseContent::where('id', $ccid)->first();
+        $selectedWP = \App\Models\WeeklyLessonPlan::findOrFail($wp);
+        $selectedWP->CourseCode = $request->CourseCode;
+        $selectedWP->Week = $request->Week;        
+        $selectedWP->Topics = $request->Topics;
+        $selectedWP->SpecificOutcomes = $request->SpecificOutcomes;
+        $selectedWP->teaching_strategy = $request->teaching_strategy;
+        $selectedWP->teaching_aid = $request->teaching_aid;
+        $selectedWP->assessment_strategy = $request->assessment_strategy;
+        $selectedWP->mapping = $request->mapping;
+        $selectedWP->save();
+        return back();
+    }
+
+    public function deleteWeeklyLessonPlan(Request $request, $wp): RedirectResponse{
+        $selectedwp = \App\Models\WeeklyLessonPlan::where('id', $wp)->first();
+        $selectedwp->delete();
+        return back();
     }
 
     public function downloadWeeklyPlan( $courseCode )

@@ -108,7 +108,7 @@ export default function CLOEdit({ message, auth }) {
 
                                                 <div className="flex items-center justify-end mt-4">
                                                     <PrimaryButton className="ms-4" disabled={processing}>
-                                                        Edit Course Learning Outcome (CLO)
+                                                        Update Course Learning Outcome (CLO)
                                                     </PrimaryButton>
                                                 </div>
                                             </form>

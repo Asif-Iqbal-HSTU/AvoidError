@@ -5,20 +5,27 @@ import { Head, usePage, Link, useForm } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import NumberInput from '@/Components/NumberInput';
 import TextArea from '@/Components/TextArea';
+import { router } from '@inertiajs/react';
 
-import { Tooltip } from 'react-tooltip'
+import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
+import PLOshowing from '@/Components/PLOshowing';
 
 export default function PLOvsCLOPage({ message, auth }) {
     const { courseLearningOutcomes, programLearningOutcomes, courseCode, PLOvsCLOs } = usePage().props;
     console.log(PLOvsCLOs);
 
-
     const [selectedCLO, setSelectedCLO] = useState('');
     const [tooltipContent, setTooltipContent] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         CourseCode: '',
@@ -31,6 +38,11 @@ export default function PLOvsCLOPage({ message, auth }) {
         post(route('store.plovsclo', { courseCode: courseCode }));
     };
 
+    const handleDelete = (id) => {
+        if (confirm('Are you sure you want to delete this course objective?')) {
+            router.delete(route('deletePLOvsCLO', { plovsclo: id }));
+        }
+    };
 
     return (
         <AuthenticatedLayout
@@ -39,31 +51,33 @@ export default function PLOvsCLOPage({ message, auth }) {
         >
             <Head title="Workspace" />
 
-
             {auth.user.role === "admin" ? (
-                <>
-
-                </>
+                <></>
             ) : (
                 <>
                     <div className="py-12">
                         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+                            <Link
+                                href={route('courseView', { courseCode: courseCode })}>
+                                <SecondaryButton className="mb-2">
+                                    <FontAwesomeIcon icon={faArrowLeft} />
+                                    &nbsp;Back
+                                </SecondaryButton>
+                            </Link>
                             <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                                 <div className="p-6 text-gray-900 dark:text-gray-100">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 flex justify-center">
-
                                         <div>
                                             <header>
                                                 <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Mapping/ Alignment PLO vs CLO</h2>
-
                                                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                                    Select CLO and Associate PLO. If You have one CLO associated with multiple PLO, then repeat the process.
+                                                    Select CLO and Associated PLO. If You have one CLO associated with multiple PLO, then repeat the process.
                                                 </p>
                                             </header>
                                             <form onSubmit={submit} className="mt-6 space-y-6">
                                                 <div>
                                                     <InputLabel htmlFor="CourseCode" value="Course Code" />
-
                                                     <TextInput
                                                         id="CourseCode"
                                                         name="CourseCode"
@@ -74,13 +88,11 @@ export default function PLOvsCLOPage({ message, auth }) {
                                                         required
                                                         disabled
                                                     />
-
                                                     <InputError message={errors.CourseCode} className="mt-2" />
                                                 </div>
 
                                                 <div className="mt-4">
                                                     <InputLabel htmlFor="CLO_ID" value="CLO_ID" />
-
                                                     <select
                                                         id="CLO_ID"
                                                         name="CLO_ID"
@@ -98,7 +110,7 @@ export default function PLOvsCLOPage({ message, auth }) {
                                                             >
                                                                 {data.CLO_ID === courseLearningOutcome.CLO_ID ? (
                                                                     courseLearningOutcome.CLO_ID
-                                                                ) : (                                                                    
+                                                                ) : (
                                                                     `${courseLearningOutcome.CLO_ID}: ${courseLearningOutcome.CLO_Description}`
                                                                 )}
                                                             </option>
@@ -109,7 +121,6 @@ export default function PLOvsCLOPage({ message, auth }) {
 
                                                 <div className="mt-4">
                                                     <InputLabel htmlFor="PLO_No" value="PLO_No" />
-
                                                     <select
                                                         id="PLO_No"
                                                         name="PLO_No"
@@ -123,18 +134,27 @@ export default function PLOvsCLOPage({ message, auth }) {
                                                             <option key={programLearningOutcome.PLO_No} value={programLearningOutcome.PLO_No}>
                                                                 {data.PLO_No === programLearningOutcome.PLO_No ? (
                                                                     programLearningOutcome.PLO_No
-                                                                ) : (                                                                    
-                                                                    `${programLearningOutcome.PLO_No}: ${programLearningOutcome.PLO_Description}`
+                                                                ) : (
+                                                                    `${programLearningOutcome.PLO_No}`
                                                                 )}
                                                             </option>
                                                         ))}
                                                     </select>
-
                                                     <InputError message={errors.faculty} className="mt-2" />
                                                 </div>
 
-                                                <div className="flex items-center justify-end mt-4">
-                                                    <PrimaryButton className="ms-4" disabled={processing}>
+                                                <div className="flex justify-between mt-4">
+                                                    <SecondaryButton
+                                                        className="mr-4"
+                                                        type="button"
+                                                        onClick={() => setIsModalOpen(true)}
+                                                    >
+                                                        PLO Details
+                                                    </SecondaryButton>
+                                                    <PrimaryButton
+                                                        className="ml-auto"
+                                                        disabled={processing}
+                                                    >
                                                         Map CLO and PLO
                                                     </PrimaryButton>
                                                 </div>
@@ -146,6 +166,7 @@ export default function PLOvsCLOPage({ message, auth }) {
                                                     <tr className="bg-gray-50 dark:bg-gray-800">
                                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">CLO ID</th>
                                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">PLO No</th>
+                                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Delete</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700">
@@ -154,11 +175,16 @@ export default function PLOvsCLOPage({ message, auth }) {
                                                             <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800' : 'bg-gray-60 dark:bg-gray-900'}>
                                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400">{PLOvsCLO.CLO_ID}</td>
                                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400">{PLOvsCLO.PLO_No}</td>
+                                                                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                                                    <button onClick={() => handleDelete(PLOvsCLO.id)}>
+                                                                        <FontAwesomeIcon icon={faTrash} size="lg" className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-600" />
+                                                                    </button>
+                                                                </td>
                                                             </tr>
                                                         ))
                                                     ) : (
                                                         <tr>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400" colSpan="2">No course objectives found.</td>
+                                                            <td className="bg-gray-50 dark:bg-gray-800 px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400" colSpan="2">No mapping found.</td>
                                                         </tr>
                                                     )}
                                                 </tbody>
@@ -171,6 +197,37 @@ export default function PLOvsCLOPage({ message, auth }) {
                     </div>
                 </>
             )}
-        </AuthenticatedLayout >
+
+            <PLOshowing show={isModalOpen} onClose={() => setIsModalOpen(false)} maxWidth="2xl">
+                <div className="p-6">
+                    <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">PLO Details</h2>
+                    <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">PLO details are here.</p>
+                    <div className="max-h-96 overflow-y-auto"> {/* Set max-height for the table container */}
+                        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead>
+                                <tr className="bg-gray-50 dark:bg-gray-800">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">No.</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700">
+                                {programLearningOutcomes && programLearningOutcomes.length > 0 ? (
+                                    programLearningOutcomes.map((programLearningOutcome, index) => (
+                                        <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800' : 'bg-gray-60 dark:bg-gray-900'}>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400">{programLearningOutcome.PLO_No}</td>
+                                            <td className="px-6 py-4 whitespace-wrap text-sm text-gray-900 dark:text-gray-400">{programLearningOutcome.PLO_Description}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td className="bg-gray-50 dark:bg-gray-800 px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400" colSpan="2">No PLO found.</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </PLOshowing>
+        </AuthenticatedLayout>
     );
 }

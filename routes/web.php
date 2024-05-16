@@ -8,6 +8,7 @@ use App\Http\Controllers\CourseObjectiveController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ExamProposalController;
 use App\Http\Controllers\CLOController;
+use App\Http\Controllers\PLOvsCLOController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\DepartmentController;
@@ -101,6 +102,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/update/clo/{clo}', [CLOController::class, 'UpdateCLO'])->name('UpdateCLO');
     Route::delete('/delete/clo/{clo}', [CLOController::class, 'deleteCLO'])->name('deleteCLO');
 
+    //PLOvsCLO    
+    Route::delete('/delete/plovsclo/{plovsclo}', [PLOvsCLOController::class, 'deletePLOvsCLO'])->name('deletePLOvsCLO');
+
+    //CourseContent    
+    Route::get('/edit/cc/{ccid}', [CourseController::class, 'EditCourseContent'])->name('EditCourseContent');
+    Route::post('/update/cc/{ccid}', [CourseController::class, 'UpdateCourseContent'])->name('UpdateCourseContent');
+    Route::delete('/delete/cc/{cc}', [CourseController::class, 'deleteCourseContent'])->name('deleteCourseContent');
+
     //editBasicInfo
     Route::get('/edit/basic/{courseCode}', [CourseController::class, 'editBasicInfo'])->name('editBasicInfo');
     Route::post('/edit/basic/up/{courseCode}', [CourseController::class, 'storeBasicInfo'])->name('storeBasicEdits');
@@ -129,11 +138,18 @@ Route::middleware('auth')->group(function () {
     Route::post('/coursecontent/upload/{courseCode}', [CourseController::class, 'storeCourseContent'])->name('coursecontent.upload');
 
     Route::get('/referencebooks/{courseCode}', [CourseController::class, 'referencebooks'])->name('referencebooks');
-    Route::post('/referencebooks/upload/{courseCode}', [RefbookController::class, 'storereferencebooks'])->name('referencebooks.upload');
-    Route::get('/referencebooks/{courseCode}/download/{id}', [RefbookController::class, 'downloadReferenceBook'])->name('referencebooks.download');
+    Route::post('/referencebooks/upload/{courseCode}', [CourseController::class, 'storereferencebooks'])->name('referencebooks.upload');
+    //Route::post('/referencebooks/upload/{courseCode}', [RefbookController::class, 'storereferencebooks'])->name('referencebooks.upload');
+    //Route::get('/referencebooks/{courseCode}/download/{id}', [RefbookController::class, 'downloadReferenceBook'])->name('referencebooks.download');   
+    Route::get('/edit/book/{book}', [CourseController::class, 'EditReferenceBook'])->name('EditReferenceBook');
+    Route::post('/update/book/{book}', [CourseController::class, 'UpdateReferenceBook'])->name('UpdateReferenceBook'); 
+    Route::delete('/delete/book/{book}', [CourseController::class, 'deleteReferenceBook'])->name('deleteReferenceBook');
 
     Route::get('/weeklyPlan/{courseCode}', [WeeklyLessonPlanController::class, 'WeeklyLessonPlanPage'])->name('weeklyPlan');
     Route::post('/weeklyPlan/upload/{courseCode}', [WeeklyLessonPlanController::class, 'storeWeeklyLessonPlan'])->name('weeklyPlan.upload');
+    Route::get('/edit/wp/{wp}', [WeeklyLessonPlanController::class, 'EditWeeklyLessonPlan'])->name('EditWeeklyLessonPlan');
+    Route::post('/update/wp/{wp}', [WeeklyLessonPlanController::class, 'UpdateWeeklyLessonPlan'])->name('UpdateWeeklyLessonPlan'); 
+    Route::delete('/delete/wp/{wp}', [WeeklyLessonPlanController::class, 'deleteWeeklyLessonPlan'])->name('deleteWeeklyLessonPlan');
 
 
     Route::get('/set-syllabus/clo/{courseCode}', [CourseController::class, 'setSyllabus'])->name('set-syllabus-route.clo');

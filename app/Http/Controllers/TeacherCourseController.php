@@ -52,7 +52,7 @@ class TeacherCourseController extends Controller
             'teacherCourses' => $teacherCourses,  
             'teacherCoursesChairman' => $teacherCoursesChairman,
             'dept' => $dept,
-            'users' => $users,
+            'users' => $users, 
         ]);
     }
 

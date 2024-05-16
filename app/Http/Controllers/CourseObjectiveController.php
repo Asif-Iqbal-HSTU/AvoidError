@@ -84,7 +84,7 @@ class CourseObjectiveController extends Controller
     public function deleteCourseObjective(Request $request, $co): RedirectResponse{
         $courseObjective = \App\Models\CourseObjective::findOrFail($co);
         $cc = $courseObjective->CourseCode;
-        $courseObjective->delete();
+        $courseObjective->delete(); 
     
         
         $courseObjectives = \App\Models\CourseObjective::where('CourseCode', $cc)->get();

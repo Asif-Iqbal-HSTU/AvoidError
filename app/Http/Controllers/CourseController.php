@@ -239,6 +239,7 @@ class CourseController extends Controller
             'CLO_ID' => $request->CLO_ID,
             'PLO_No' => $request->PLO_No,
         ]);
+        /*
         $PLOvsCLOs = \App\Models\PLOvsCLO::where('CourseCode', $courseCode)->get();
         $courseLearningOutcomes = \App\Models\CourseLearningOutcome::where('CourseCode', $courseCode)->get();
         
@@ -252,6 +253,8 @@ class CourseController extends Controller
             'PLOvsCLOs' => $PLOvsCLOs,
         ]);
         //return redirect()->back()->with('courseObjectives', $courseObjectives);
+        */
+        return back();
     }
 
     public function CourseContent($courseCode): Response
@@ -291,7 +294,7 @@ class CourseController extends Controller
         ]);
 
         //dd($courseContent);
-
+        /*
         $success = "Course content created successfully.";
         $courseContents = \App\Models\CourseContent::where('CourseCode', $courseCode)->get();
 
@@ -301,7 +304,42 @@ class CourseController extends Controller
             'courseCode' => $courseCode,
             'courseLearningOutcomes' => $courseLearningOutcomes,
             'courseContents' => $courseContents,
+        ]);*/
+        return back();
+    }
+
+    public function EditCourseContent($ccid): Response {
+        // Use $courseCode to perform actions, such as fetching data from the database or any other processing
+        // Return a response or render a view as needed
+        //dd($courseCode);
+        
+        $selectedCC = \App\Models\CourseContent::where('id', $ccid)->first();
+        $courseLearningOutcomes = \App\Models\CourseLearningOutcome::where('CourseCode', $selectedCC->CourseCode)->get();
+        return Inertia::render('Course/CourseContentEdit',[
+            'selectedCC' => $selectedCC,
+            'courseLearningOutcomes' => $courseLearningOutcomes
         ]);
+    }
+
+    public function UpdateCourseContent(Request $request, $ccid): RedirectResponse {
+        // Use $courseCode to perform actions, such as fetching data from the database or any other processing
+        // Return a response or render a view as needed
+        //dd($request->content);
+        //$selectedCC = \App\Models\CourseContent::where('id', $ccid)->first();
+        $selectedCC = \App\Models\CourseContent::findOrFail($ccid);
+        $selectedCC->CourseCode = $request->CourseCode;
+        $selectedCC->content = $request->content;
+        $selectedCC->teaching_strategy = $request->teaching_strategy;
+        $selectedCC->assessment_strategy = $request->assessment_strategy;
+        $selectedCC->mapping = $request->mapping;
+        $selectedCC->save();
+        return back();
+    }
+
+    public function deleteCourseContent(Request $request, $cc): RedirectResponse{
+        $selectedCC = \App\Models\CourseContent::where('id', $cc)->first();
+        $selectedCC->delete();
+        return back();
     }
 
 
@@ -309,7 +347,7 @@ class CourseController extends Controller
         // Use $courseCode to perform actions, such as fetching data from the database or any other processing
         // Return a response or render a view as needed
         //dd($courseCode);
-        $referencebooks = \App\Models\Refbook::where('CourseCode', $courseCode)->get();
+        $referencebooks = \App\Models\ReferenceBook::where('CourseCode', $courseCode)->get();
         return Inertia::render('Course/ReferenceBooks',[
             'courseCode' => $courseCode,
             'referencebooks' => $referencebooks,
@@ -324,12 +362,41 @@ class CourseController extends Controller
             'BookName' => $request->BookName,
             'Author' => $request->Author,
         ]);
-        $referencebooks = \App\Models\ReferenceBook::where('CourseCode', $courseCode)->get();
+        /*$referencebooks = \App\Models\ReferenceBook::where('CourseCode', $courseCode)->get();
         return Inertia::render('Course/ReferenceBooks',[
             'courseCode' => $courseCode,
             'referencebooks' => $referencebooks,
-        ]);
+        ]);*/
         //return redirect()->back()->with('courseObjectives', $courseObjectives);
+        return back();
+    }
+
+    public function EditReferenceBook($book): Response {
+        // Use $courseCode to perform actions, such as fetching data from the database or any other processing
+        // Return a response or render a view as needed
+        //dd($courseCode);
+        $selectedBook = \App\Models\ReferenceBook::where('id', $book)->first();
+        return Inertia::render('Course/ReferenceBookEdit',[
+            'selectedBook' => $selectedBook,
+        ]);
+    }
+
+    public function UpdateReferenceBook(Request $request, $book): RedirectResponse {
+        // Use $courseCode to perform actions, such as fetching data from the database or any other processing
+        // Return a response or render a view as needed
+        //dd($request->input('CO_ID'));
+        $selectedBook = \App\Models\ReferenceBook::where('id', $book)->first();
+        $selectedBook->Sl_No = $request->Sl_No;
+        $selectedBook->BookName = $request->BookName;
+        $selectedBook->Author = $request->Author;
+        $selectedBook->save();
+        return back();
+    }
+
+    public function deleteReferenceBook(Request $request, $book): RedirectResponse{
+        $selectedCLO = \App\Models\ReferenceBook::where('id', $book)->first();
+        $selectedCLO->delete();
+        return back();
     }
 
     public function download( $courseCode )

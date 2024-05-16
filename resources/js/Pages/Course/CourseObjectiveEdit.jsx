@@ -11,7 +11,7 @@ import NumberInput from '@/Components/NumberInput';
 import TextArea from '@/Components/TextArea';
 
 export default function CourseObjective({ message, auth }) {
-    const { courseObjective } = usePage().props;
+    const { courseObjective } = usePage().props; 
     console.log(courseObjective);
 
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -108,7 +108,7 @@ export default function CourseObjective({ message, auth }) {
 
                                                 <div className="flex items-center justify-end mt-4">
                                                     <PrimaryButton className="ms-4" disabled={processing}>
-                                                        Edit Course Objective
+                                                        Update Course Objective
                                                     </PrimaryButton>
                                                 </div>
                                             </form>

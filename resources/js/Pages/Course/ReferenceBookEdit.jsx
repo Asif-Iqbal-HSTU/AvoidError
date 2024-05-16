@@ -6,36 +6,31 @@ import { router } from '@inertiajs/react'
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
-import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import NumberInput from '@/Components/NumberInput';
 import TextArea from '@/Components/TextArea';
 
+import SecondaryButton from '@/Components/SecondaryButton';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-export default function ReferenceBook({ message, auth }) {
-    const { referencebooks, courseCode } = usePage().props;
-    console.log(referencebooks);
+export default function ReferenceBookEdit({ message, auth }) {
+    const { selectedBook } = usePage().props;
+    //console.log(referencebooks);
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        CourseCode: courseCode,
-        Sl_No: '',
-        BookName: '',
-        Author: '',
+        CourseCode: selectedBook.CourseCode,
+        Sl_No: selectedBook.Sl_No,
+        BookName: selectedBook.BookName,
+        Author: selectedBook.Author,
         File: null, // New state for file upload
     });
 
     const submit = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('CourseCode', data.CourseCode);
-        formData.append('Sl_No', data.Sl_No);
-        formData.append('BookName', data.BookName);
-        formData.append('Author', data.Author);
-        formData.append('File', data.File); // Append file to form data
-        post(route('referencebooks.upload', { courseCode: courseCode }), formData); // Send form data with file
+        post(route('UpdateReferenceBook', { book: selectedBook.id }));
     };
 
 
@@ -62,13 +57,6 @@ export default function ReferenceBook({ message, auth }) {
                 <>
                     <div className="py-12">
                         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                            <Link
-                                href={route('courseView', { courseCode: courseCode })}>
-                                <SecondaryButton className="mb-2">
-                                    <FontAwesomeIcon icon={faArrowLeft} />
-                                    &nbsp;Back
-                                </SecondaryButton>
-                            </Link>
                             <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                                 <div className="p-6 text-gray-900 dark:text-gray-100">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 flex justify-center">
@@ -78,7 +66,7 @@ export default function ReferenceBook({ message, auth }) {
                                                 <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Reference Books</h2>
 
                                                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                                    Add reference books of {courseCode} from here.
+                                                    Editing a reference book.
                                                 </p>
                                             </header>
                                             <form onSubmit={submit} className="mt-6 space-y-6" encType="multipart/form-data">
@@ -88,7 +76,7 @@ export default function ReferenceBook({ message, auth }) {
                                                     <TextInput
                                                         id="CourseCode"
                                                         name="CourseCode"
-                                                        value={courseCode}
+                                                        value={data.CourseCode}
                                                         className="mt-1 block w-full"
                                                         autoComplete="CourseCode"
                                                         onChange={(e) => setData('CourseCode', e.target.value)}
@@ -165,51 +153,38 @@ export default function ReferenceBook({ message, auth }) {
 
                                                 <div className="flex items-center justify-end mt-4">
                                                     <PrimaryButton className="ms-4" disabled={processing}>
-                                                        Add Reference Book
+                                                        Update Reference Book
                                                     </PrimaryButton>
                                                 </div>
                                             </form>
                                         </div>
                                         <div>
+                                            <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Selected Reference Book</h2>
+                                            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                                {selectedBook.BookName} is selected to be updated.
+                                            </p>
                                             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                                 <thead>
                                                     <tr className="bg-gray-50 dark:bg-gray-800">
                                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">BookName</th>
-                                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Author</th>
-                                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Edit</th>
-                                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Delete</th>
+                                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Author, Edition and other info</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700">
-                                                    {referencebooks && referencebooks.length > 0 ? (
-                                                        referencebooks.map((book, index) => (
-                                                            <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800' : 'bg-white'}>
-                                                                <td className="px-6 py-4 whitespace-wrap text-sm text-gray-900 dark:text-gray-400">{book.BookName}</td>
-                                                                <td className="px-6 py-4 whitespace-wrap text-sm text-gray-900 dark:text-gray-400">{book.Author}</td>
-
-                                                                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                                    <Link href={route('EditReferenceBook', { book: book.id })}>
-                                                                        <FontAwesomeIcon icon={faEdit} size="lg" className="text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-600" />
-                                                                    </Link>
-                                                                </td>
-                                                                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-
-                                                                    <button onClick={() => handleDelete(book.id)}>
-                                                                        <FontAwesomeIcon icon={faTrash} size="lg" className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-600" />
-                                                                    </button>
-                                                                </td>
-                                                                {/*<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                    <tr className='bg-gray-50 dark:bg-gray-800'>
+                                                        <td className="px-6 py-4 whitespace-wrap text-sm text-gray-900 dark:text-gray-400">{selectedBook.BookName}</td>
+                                                        <td className="px-6 py-4 whitespace-wrap text-sm text-gray-900 dark:text-gray-400">{selectedBook.Author}</td>
+                                                        {/*<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                                     <a href={route('referencebooks.download', { courseCode: courseCode, id: book.id })} className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-700">Download</a>
                                                         </td>*/}
-                                                            </tr>
-                                                        ))
-                                                    ) : (
-                                                        <tr>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400" colSpan="2">No course learning outcome found.</td>
-                                                        </tr>
-                                                    )}
+                                                    </tr>
                                                 </tbody>
                                             </table>
+                                            <Link href={route('referencebooks', { courseCode: selectedBook.CourseCode })}>
+                                                <button className="text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-600">
+                                                    Go to all Reference Books
+                                                </button>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>

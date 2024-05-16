@@ -4,12 +4,18 @@ import TextInput from '@/Components/TextInput';
 import { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage, Link, useForm } from '@inertiajs/react';
+import SecondaryButton from '@/Components/SecondaryButton';
 
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import NumberInput from '@/Components/NumberInput';
 import TextArea from '@/Components/TextArea';
+import WeeklyPlanCard from '@/Components/WeeklyPlanCard';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 export default function WeeklyLessonPlan({ message, auth }) {
 
@@ -60,6 +66,13 @@ export default function WeeklyLessonPlan({ message, auth }) {
             <Head title="Workspace" />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <Link
+                        href={route('courseView', { courseCode: courseCode })}>
+                        <SecondaryButton className="mb-2">
+                            <FontAwesomeIcon icon={faArrowLeft} />
+                            &nbsp;Back
+                        </SecondaryButton>
+                    </Link>
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 flex justify-center">
@@ -140,7 +153,7 @@ export default function WeeklyLessonPlan({ message, auth }) {
                                                                     <span className="ml-2">Lecture</span>
                                                                 </label>
                                                             </td>
-                                                            <td>
+                                                            <td className="pl-5">
                                                                 <label className="inline-flex items-center">
                                                                     <input type="checkbox" className="form-checkbox" value="Demonstration" onChange={(e) => e.target.checked ? setTeachingStrategies([...teachingStrategies, e.target.value]) : setTeachingStrategies(teachingStrategies.filter(strategy => strategy !== e.target.value))} />
                                                                     <span className="ml-2">Demonstration</span>
@@ -150,21 +163,35 @@ export default function WeeklyLessonPlan({ message, auth }) {
                                                         <tr>
                                                             <td>
                                                                 <label className="inline-flex items-center">
-                                                                    <input type="checkbox" className="form-checkbox" value="Demonstration" onChange={(e) => e.target.checked ? setTeachingStrategies([...teachingStrategies, e.target.value]) : setTeachingStrategies(teachingStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <input type="checkbox" className="form-checkbox" value="Discussion" onChange={(e) => e.target.checked ? setTeachingStrategies([...teachingStrategies, e.target.value]) : setTeachingStrategies(teachingStrategies.filter(strategy => strategy !== e.target.value))} />
                                                                     <span className="ml-2">Discussion</span>
                                                                 </label>
                                                             </td>
-                                                            <td>
+                                                            <td className="pl-5">
                                                                 <label className="inline-flex items-center">
-                                                                    <input type="checkbox" className="form-checkbox" value="Demonstration" onChange={(e) => e.target.checked ? setTeachingStrategies([...teachingStrategies, e.target.value]) : setTeachingStrategies(teachingStrategies.filter(strategy => strategy !== e.target.value))} />
-                                                                    <span className="ml-2">Power point presentation</span>
+                                                                    <input type="checkbox" className="form-checkbox" value="Group Discussion" onChange={(e) => e.target.checked ? setTeachingStrategies([...teachingStrategies, e.target.value]) : setTeachingStrategies(teachingStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Group Discussion</span>
                                                                 </label>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
                                                                 <label className="inline-flex items-center">
-                                                                    <input type="checkbox" className="form-checkbox" value="Demonstration" onChange={(e) => e.target.checked ? setTeachingStrategies([...teachingStrategies, e.target.value]) : setTeachingStrategies(teachingStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <input type="checkbox" className="form-checkbox" value="Power point presentation" onChange={(e) => e.target.checked ? setTeachingStrategies([...teachingStrategies, e.target.value]) : setTeachingStrategies(teachingStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Multimedia presentation</span>
+                                                                </label>
+                                                            </td>
+                                                            <td className="pl-5">
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Question & Answer" onChange={(e) => e.target.checked ? setTeachingStrategies([...teachingStrategies, e.target.value]) : setTeachingStrategies(teachingStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Question & Answer</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Others" onChange={(e) => e.target.checked ? setTeachingStrategies([...teachingStrategies, e.target.value]) : setTeachingStrategies(teachingStrategies.filter(strategy => strategy !== e.target.value))} />
                                                                     <span className="ml-2">Others</span>
                                                                 </label>
                                                             </td>
@@ -177,81 +204,154 @@ export default function WeeklyLessonPlan({ message, auth }) {
                                         <div>
                                             <InputLabel value="Teaching Aid" />
                                             <div className="mt-2 space-y-2">
-                                                
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="Book" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">Book</span>
-                                                </label>
-                                                <br />
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="Online Resources" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">Online Resources</span>
-                                                </label>
-                                                <br />
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="Online Resources" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">Multimedia</span>
-                                                </label>
-                                                <br />
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="Online Resources" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">Pictures</span>
-                                                </label>
-                                                <br />
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="Online Resources" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">reports</span>
-                                                </label>
-                                                <br />
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="Online Resources" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">Charts</span>
-                                                </label>
-                                                <br />
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="Online Resources" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">Newspapers</span>
-                                                </label>
-                                                <br />
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="Online Resources" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">Handouts</span>
-                                                </label>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td className="pr-10">
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Textbook" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Textbook</span>
+                                                                </label>
+                                                            </td>
+                                                            <td className="pl-5">
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Reference Book" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Reference Book</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Online Resources" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Online Resource</span>
+                                                                </label>
+                                                            </td>
+                                                            <td  className="pl-5">
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Multimedia" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Multimedia</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Reports" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Report</span>
+                                                                </label>
+                                                            </td>
+                                                            <td className="pl-5">
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Charts" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Chart</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Newspapers" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Newspaper</span>
+                                                                </label>
+                                                            </td>
+                                                            <td className="pl-5">
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Handouts" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Handout</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Others" onChange={(e) => e.target.checked ? setTeachingAids([...teachingAids, e.target.value]) : setTeachingAids(teachingAids.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Others</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
 
                                             </div>
                                         </div>
                                         <div>
                                             <InputLabel value="Assessment Strategy" />
                                             <div className="mt-2 space-y-2">
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="MCQ" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">MCQ</span>
-                                                </label>
-                                                <br />
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="Quiz" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">Quiz</span>
-                                                </label>
-                                                <br />
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="Assignment" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">Assignment</span>
-                                                </label>
-                                                <br />
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="Assignment" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">Presentation</span>
-                                                </label>
-                                                <br />
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="Assignment" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">Final Examination</span>
-                                                </label>
-                                                <br />
-                                                <label className="inline-flex items-center">
-                                                    <input type="checkbox" className="form-checkbox" value="Demonstration" onChange={(e) => e.target.checked ? setTeachingStrategies([...teachingStrategies, e.target.value]) : setTeachingStrategies(teachingStrategies.filter(strategy => strategy !== e.target.value))} />
-                                                    <span className="ml-2">Others</span>
-                                                </label>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td className="pr-10">
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="MCQ" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">MCQ</span>
+                                                                </label>
+                                                            </td>
+                                                            <td className="pl-5">
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Quiz" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Quiz</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Assignment" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Assignment</span>
+                                                                </label>
+                                                            </td>
+                                                            <td className="pl-5">
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Presentation" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Presentation</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Report Writing" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Report Writing</span>
+                                                                </label>
+                                                            </td>
+                                                            <td className="pl-5">
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Viva Voce" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Viva Voce</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Class Participation" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Class Participation</span>
+                                                                </label>
+                                                            </td>
+                                                            <td className="pl-5">
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Mid Semester Examination" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Mid Semester Examination</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Final Examination" onChange={(e) => e.target.checked ? setAssessmentStrategies([...assessmentStrategies, e.target.value]) : setAssessmentStrategies(assessmentStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Final Examination</span>
+                                                                </label>
+                                                            </td>
+                                                            <td className="pl-5">
+                                                                <label className="inline-flex items-center">
+                                                                    <input type="checkbox" className="form-checkbox" value="Others" onChange={(e) => e.target.checked ? setTeachingStrategies([...teachingStrategies, e.target.value]) : setTeachingStrategies(teachingStrategies.filter(strategy => strategy !== e.target.value))} />
+                                                                    <span className="ml-2">Others</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
 
@@ -284,32 +384,31 @@ export default function WeeklyLessonPlan({ message, auth }) {
                                 <div>
                                     <header>
                                         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Added Weekly Lesson Plan</h2>
-                                        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                        <p className="mt-1 mb-2 text-sm text-gray-600 dark:text-gray-400">
                                             You've added following Week's Lesson Plans.
                                         </p>
                                     </header>
-                                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 mt-5">
-                                        <thead>
-                                            <tr className="bg-gray-50 dark:bg-gray-800">
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Weeks</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">mapping</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700">
-                                            {weeklyPlans && weeklyPlans.length > 0 ? (
-                                                weeklyPlans.map((plan, index) => (
-                                                    <tr key={index} className={index % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800' : 'bg-white'}>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400 w-1/4">Week-{plan.Week}</td>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400">{plan.mapping}</td>
-                                                    </tr>
-                                                ))
-                                            ) : (
-                                                <tr>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400" colSpan="2">Nothing found.</td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-1 gap-6 lg:gap-8 flex justify-center">
+                                        {weeklyPlans && weeklyPlans.length > 0 ? (
+                                            weeklyPlans.map((wps, index) => (
+                                                <WeeklyPlanCard
+                                                    week={wps.Week}
+                                                    topic={wps.Topics}
+                                                    spo={wps.SpecificOutcomes}
+                                                    teaching_strategy={wps.teaching_strategy}
+                                                    teaching_aid={wps.teaching_aid}
+                                                    assessment_strategy={wps.assessment_strategy}
+                                                    clos={wps.mapping}
+                                                    wpid={wps.id}
+                                                    link={route('EditWeeklyLessonPlan', { wp: wps.id })}
+                                                    showbuttons="yes"
+                                                />
+                                            ))
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
